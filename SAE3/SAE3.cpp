@@ -21,39 +21,39 @@ int main()
 	//Ici vous devez décoder l'entête du fichier
 	//...
 	//Création d'une mémoire de 10 octets :
-	std::vector<char> donnees(200*156);
+	std::vector<char> donnees(20*20);
 	//Lecture de 10 octets depuis le fichier et stockage dans le tableau donnees :
-	fichier.read(donnees.data(), 200*156);
+	fichier.read(donnees.data(), 20*20);
 	int cpt = 0;
 	for (int a : donnees)
 	{
-		//std::cout << a+127 << " | ";
-		if (a+127 <= 31) {
-			std::cout << "W";
-		}
-		if (a+127 <= 62 && a + 127 > 31) {
-			std::cout << "w";
-		}
-		if (a+127 <= 93 && a + 127 > 62) {
-			std::cout << "l";
-		}
-		if (a+127 <= 124 && a + 127 > 93) {
-			std::cout << "i";
-		}
-		if (a+127 <= 155 && a + 127 > 124) {
-			std::cout << ":";
-		}
-		if (a+127 <= 186 && a + 127 > 155) {
-			std::cout << ",";
-		}
-		if (a+127 <= 217 && a + 127 > 186) {
-			std::cout << ".";
-		}
-		if (a+127 > 217) {
-			std::cout << " ";
-		}
+		std::cout << a << " | ";
+		//if (a <= -96) {
+		//	std::cout << "Z";
+		//}
+		//if (a <= -64 && a > -96) { // -96 < a < -64
+		//	std::cout << "w";
+		//}
+		//if (a <= -32 && a > -64) {
+		//	std::cout << "l";
+		//}
+		//if (a <= 0 && a > -32) {
+		//	std::cout << "i";
+		//}
+		//if (a <= 32 && a > 0) { // 
+		//	std::cout << ":";
+		//}
+		//if (a <= 64 && a > 32) {
+		//	std::cout << ",";
+		//}
+		//if (a <= 96 && a> 64) {
+		//	std::cout << ".";
+		//}
+		//if (a > 96) {
+		//	std::cout << " ";
+		//}
 		cpt++;
-		if (cpt == 200) {
+		if (cpt == 20) {
 			std::cout << "\n";
 			cpt = 0;
 		}
