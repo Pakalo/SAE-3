@@ -68,13 +68,13 @@ int main()
 	{ 
 		//std::cout << a << " | ";
 		if (a <= -96) {
-			std::cout << "i";
-		}
-		if (a <= -64 && a > -96) { // -96 < a < -64
 			std::cout << ":";
 		}
-		if (a <= -32 && a > -64) {
+		if (a <= -64 && a > -96) { // -96 < a < -64
 			std::cout << ",";
+		}
+		if (a <= -32 && a > -64) {
+			std::cout << ".";
 		}
 		if (a < 0 && a > -32) {
 			std::cout << " ";
