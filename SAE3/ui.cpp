@@ -12,7 +12,7 @@ void AffichageMenu()
 	std::cout << "Veuillez sélectionner le nom du fichier sortie: ";
 	std::cin >> OutF;
 
-	OutputToTXT(ImpF, OutF);
+	//OutputToTXT(ImpF, OutF, );
 }
 
 void Help() 

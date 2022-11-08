@@ -8,7 +8,7 @@
 #include <iostream>
 
 
-std::vector<char> DecodeFile(std::string fileName) {
+std::vector<std::vector<unsigned char>> DecodeFile(std::string fileName) {
 	/*
 	Cette fonction permet de décoder et sortir un tableau contenant les données
 	*/
@@ -60,11 +60,27 @@ std::vector<char> DecodeFile(std::string fileName) {
 			}
 		}
 	}
-
-	std::vector<char> donnees(hauteur * largeur); //Création d'un tableau de la taille du nbr total de pixel de l'image
-	fichier.read(donnees.data(), hauteur * largeur); //Ajout des valeurs de l'image dans le tableau
-
-	return donnees;
+	
+	std::vector<std::vector<char>> colonne(hauteur);
+	for (int i = 0; i < hauteur; i++)
+	{
+		std::vector<char> ligne(largeur);
+		fichier.read(ligne.data(), largeur);
+		colonne[i] = ligne;
+	}
+	std::vector<std::vector<unsigned char>> newcolonne(hauteur);
+	for (int j = 0; j < hauteur; j++)
+	{
+		std::vector<unsigned char> newligne(largeur);
+		for (int k = 0; k < largeur; k++)
+		{
+			int caractere = int(colonne[j][k]);
+			caractere = (caractere + 256) % 256;
+			newligne[k] = unsigned char(caractere);
+		}
+		newcolonne[j] = newligne;
+	}
+	return newcolonne;
 }
 
 
@@ -111,45 +127,70 @@ std::array<int, 2> getDim(std::string fileName) {
 
 	return res;
 }
+
+
 //PERMET D'ECRIRE DANS UN FICHIER TEXTE LA  SORTIE
-void OutputToTXT(std::string ImpF,std::string OutF)
+void OutputToTXT(std::string ImpF, std::string OutF, std::string Palette)
 {
-	std::ofstream sortie(OutF + ".txt"); //Ouverture du fichier de sortie
-	std::vector<char> donnees = DecodeFile(ImpF); 
-	int cpt = 0;
+	std::ifstream palette_choix(Palette);
+	std::ofstream sortie(OutF + ".txt");
+	int nbLignes = 0;
+	std::string ligne;
+	std::vector<std::string> palette;
+	int hauteur = getDim(ImpF)[1];
 	int largeur = getDim(ImpF)[0];
-	for (int a : donnees)
+	std::vector<std::vector<unsigned char>> newcolonne = DecodeFile(ImpF);
+
+	while (std::getline(palette_choix, ligne))
 	{
-		//std::cout << a << " | ";
-		if (a <= 32 && a >= 0) { // 
-			sortie << "W";
+		palette.push_back(ligne);
+	}
+
+	int interval, temp = 0;
+	std::vector<int> tab_palette;
+	interval = 255 / palette.size();
+
+	for (int i = 0; i < palette.size(); i++)
+	{
+		if (palette.size() % 2 == 0)
+		{
+			temp += interval;
+			tab_palette.push_back(temp);
+			temp += 1;
 		}
-		if (a <= 64 && a > 32) {
-			sortie << "w";
+		else
+		{
+			temp += interval;
+			temp -= 1;
+			tab_palette.push_back(temp);
+			temp += 1;
 		}
-		if (a <= 96 && a > 64) {
-			sortie << "l";
+	}
+
+	std::vector<std::vector<std::string>> vrai_colone(hauteur);
+	for (int i = 0; i < hauteur; i++)
+	{
+		std::vector<std::string> vrai_ligne(largeur);
+		for (int j = 0; j < largeur; j++)
+		{
+			for (int k = 0; tab_palette.size(); k++)
+			{
+				if (int(newcolonne[i][j]) <= tab_palette[k])
+				{
+					vrai_ligne[j] = palette[k];
+					break;
+				}
+			}
 		}
-		if (a > 96) {
-			sortie << "i";
-		}
-		if (a <= -96) {
-			sortie << ":";
-		}
-		if (a <= -64 && a > -96) { // -96 < a < -64
-			sortie << ",";
-		}
-		if (a <= -32 && a > -64) {
-			sortie << ".";
-		}
-		if (a < 0 && a > -32) {
-			sortie << " ";
-		}
-		cpt++;
-		if (cpt == largeur) {
-			sortie << std::endl;
-			cpt = 0;
-		}
+		vrai_colone[i] = vrai_ligne;
+	}
+
+
+	for (int i = 0; i < vrai_colone.size(); i++)
+	{
+		for (int j = 0; j < vrai_colone[i].size(); j++)
+			sortie << vrai_colone[i][j];
+		sortie << "\n";
 	}
 }
 
@@ -183,5 +224,5 @@ void ArgReader(char** Arg, int ArgC)
 					palette = Arg[i + 1];
 				}
 	}
-	OutputToTXT(input, output);
+	OutputToTXT(input, output, palette);
 }

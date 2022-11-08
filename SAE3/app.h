@@ -8,7 +8,7 @@
 #include <array>
 
 
-std::vector<char> DecodeFile(std::string fileName);
+std::vector<std::vector<unsigned char>> DecodeFile(std::string fileName);
 std::array<int, 2> getDim(std::string fileName);
-void OutputToTXT(std::string ImpF, std::string OutF);
+void OutputToTXT(std::string ImpF, std::string OutF, std::string Palette);
 void ArgReader(char** Arg, int ArgC);
