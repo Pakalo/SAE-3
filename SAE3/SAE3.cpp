@@ -17,7 +17,7 @@ int main()
 #endif // _WIN32
 
 	//Ouverture du fichier "ImageTest1.pgm" en mode binaire :
-	std::ifstream fichier("image1.pgm", std::ios_base::binary);
+	std::ifstream fichier("image.pgm", std::ios_base::binary);
 	//Ici vous devez décoder l'entête du fichier
 
 	std::string line, hauteur_str, largeur_str;
@@ -57,12 +57,15 @@ int main()
 	std::cout << hauteur << " | " << largeur;
 	std::cout << "\n\n";
 
+	hauteur = 500;
+	largeur = 500;
+
 
 	//Création d'une mémoire de 10 octets :
-	std::vector<char> donnees(20*20);
+	std::vector<char> donnees(hauteur * largeur);
 
 	//Lecture de 10 octets depuis le fichier et stockage dans le tableau donnees :
-	fichier.read(donnees.data(), 20 * 20);
+	fichier.read(donnees.data(), hauteur * largeur);
 	int cpt = 0;
 	for (int a : donnees) 
 	{ 
@@ -71,28 +74,28 @@ int main()
 			std::cout << "W";
 		}
 		if (a <= -64 && a > -96) { // -96 < a < -64
-			std::cout << ".";
-		}
-		if (a <= -32 && a > -64) {
-			std::cout << ",";
-		}
-		if (a < 0 && a > -32) {
-			std::cout << " ";
-		}
-		if (a <= 32 && a > 0) { // 
 			std::cout << "W";
 		}
-		if (a <= 64 && a > 32) {
+		if (a <= -32 && a > -64) {
 			std::cout << "l";
 		}
+		if (a < 0 && a > -32) {
+			std::cout << ":";
+		}
+		if (a <= 32 && a > 0) { // 
+			std::cout << "i";
+		}
+		if (a <= 64 && a > 32) {
+			std::cout << ",";
+		}
 		if (a <= 96 && a> 64) {
-			std::cout << "w";
+			std::cout << ".";
 		}
 		if (a > 96) {
 			std::cout << " ";
 		}
 		cpt++;
-		if (cpt == 20) {
+		if (cpt == largeur) {
 			std::cout << "\n";
 			cpt = 0;
 		}
