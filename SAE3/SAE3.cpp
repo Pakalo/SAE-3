@@ -15,7 +15,7 @@ int main()
 
 	//Ouverture du fichier "ImageTest1.pgm" en mode binaire :
 	std::ifstream fichier("image.pgm", std::ios_base::binary);
-	std::ofstream sortie(rep);
+	std::ofstream sortie(rep + ".txt");
 	//Ici vous devez décoder l'entête du fichier
 
 	std::string line, hauteur_str, largeur_str;
