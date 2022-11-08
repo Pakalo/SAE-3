@@ -1,6 +1,7 @@
 ﻿#ifdef _WIN32
 #include <Windows.h>
 #endif // _WIN32 
+#include "main.h"
 
 #include <iostream>
 #include <vector>
@@ -20,7 +21,7 @@ int main()
 	std::ifstream fichier("image.pgm", std::ios_base::binary);
 	//Ici vous devez décoder l'entête du fichier
 
-	std::string line, hauteur_str, largeur_str;
+
 	int largeur, hauteur;
 	std::stringstream ss(line);
 
