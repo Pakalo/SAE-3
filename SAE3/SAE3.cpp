@@ -1,8 +1,4 @@
-﻿#ifdef _WIN32
-#include <Windows.h>
-#endif // _WIN32 
-
-#include <iostream>
+﻿#include <iostream>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -11,13 +7,15 @@
 
 int main()
 {
-#ifdef _WIN32
-	SetConsoleCP(CP_UTF8);
-	SetConsoleOutputCP(CP_UTF8);
-#endif // _WIN32
+	//Selection du fichier d'écriture
+	std::string rep;
+	std::cout << "Veuillez sélectionner le nom du fichier : ";
+	std::cin >> rep;
+
 
 	//Ouverture du fichier "ImageTest1.pgm" en mode binaire :
 	std::ifstream fichier("image.pgm", std::ios_base::binary);
+	std::ofstream sortie(rep);
 	//Ici vous devez décoder l'entête du fichier
 
 	std::string line, hauteur_str, largeur_str;
@@ -67,33 +65,33 @@ int main()
 	for (int a : donnees) 
 	{ 
 		//std::cout << a << " | ";
-		if (a <= -96) {
-			std::cout << ":";
-		}
-		if (a <= -64 && a > -96) { // -96 < a < -64
-			std::cout << ",";
-		}
-		if (a <= -32 && a > -64) {
-			std::cout << ".";
-		}
-		if (a < 0 && a > -32) {
-			std::cout << " ";
-		}
-		if (a <= 32 && a > 0) { // 
-			std::cout << "W";
+		if (a <= 32 && a >= 0) { // 
+			sortie << "W";
 		}
 		if (a <= 64 && a > 32) {
-			std::cout << "w";
+			sortie << "w";
 		}
-		if (a <= 96 && a> 64) {
-			std::cout << "l";
+		if (a <= 96 && a > 64) {
+			sortie << "l";
 		}
 		if (a > 96) {
-			std::cout << "i";
+			sortie << "i";
+		}
+		if (a <= -96) {
+			sortie << ":";
+		}
+		if (a <= -64 && a > -96) { // -96 < a < -64
+			sortie << ",";
+		}
+		if (a <= -32 && a > -64) {
+			sortie << ".";
+		}
+		if (a < 0 && a > -32) {
+			sortie << " ";
 		}
 		cpt++;
 		if (cpt == largeur) {
-			std::cout << "\n";
+			sortie << std::endl;
 			cpt = 0;
 		}
 	}
