@@ -1,4 +1,5 @@
 #include "app.h"
+#include "ui.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -110,11 +111,11 @@ std::array<int, 2> getDim(std::string fileName) {
 
 	return res;
 }
-
+//PERMET D'ECRIRE DANS UN FICHIER TEXTE LA  SORTIE
 void OutputToTXT(std::string ImpF,std::string OutF)
 {
-	std::ofstream sortie(OutF + ".txt");
-	std::vector<char> donnees = DecodeFile(ImpF);
+	std::ofstream sortie(OutF + ".txt"); //Ouverture du fichier de sortie
+	std::vector<char> donnees = DecodeFile(ImpF); 
 	int cpt = 0;
 	int largeur = getDim(ImpF)[0];
 	for (int a : donnees)
@@ -150,4 +151,37 @@ void OutputToTXT(std::string ImpF,std::string OutF)
 			cpt = 0;
 		}
 	}
+}
+
+//V.4
+
+void ArgReader(char** Arg, int ArgC)
+{
+	std::string input, output, palette;
+	palette = "palette.txt";
+	std::string argument1 = Arg[1];
+	if (argument1 == "--help")
+	{
+		Help();
+		exit(0);
+	}
+	for (int i = 0; i < ArgC; ++i)
+	{
+		std::string argument = Arg[i];
+		if (argument == "--input")
+		{
+			input = Arg[i + 1];
+		}
+		else
+			if (argument == "--output")
+			{
+				output = Arg[i + 1];
+			}
+			else
+				if (argument == "--palette")
+				{
+					palette = Arg[i + 1];
+				}
+	}
+	OutputToTXT(input, output);
 }
