@@ -6,64 +6,6 @@
 #include <string>
 #include <iostream>
 
-//std::ifstream FichierGet()
-//{
-//	std::ifstream fichier("image.pgm", std::ios_base::binary);
-//	return fichier;
-//}
-
-//std::vector<char> FileToVector(std::ifstream &fichier)
-//{
-//	size_t hauteur = DecodeEntete(fichier)[0];
-//	size_t largeur = DecodeEntete(fichier)[1];
-//	std::vector<char> donnees(hauteur * largeur);
-//	fichier.read(donnees.data(), hauteur * largeur);
-//	return donnees;
-//}
-
-
-
-//void OpeningError(std::ifstream &fichier)
-//{
-//	if (!fichier.is_open())
-//	{
-//		std::cout << "ERREUR : le fichier n'a pas été ouvert";
-//		exit(1);
-//	}
-//}
-
-//std::array<int, 2> DecodeEntete(std::ifstream &fichier)
-//{
-//
-//	std::string line, largeur_str, hauteur_str;
-//	std::stringstream ss(line);
-//	int largeur, hauteur;
-//	for (int i = 0; i < 4; i++)
-//	{
-//		std::getline(fichier, line);
-//		switch (i)
-//		{
-//		case 0:
-//		{
-//			if (line != "P5")
-//				exit(2);
-//			break;
-//		}
-//		case 2:
-//		{
-//			std::stringstream ss(line);
-//			std::getline(ss, largeur_str, ' ');
-//			std::getline(ss, hauteur_str, ' ');
-//			largeur = stoi(largeur_str);
-//			hauteur = stoi(hauteur_str);
-//			break;
-//		}
-//		}
-//
-//	}
-//	std::array<int, 2>res = {hauteur, largeur};
-//	return res;
-//}
 
 std::vector<char> DecodeFile(std::string fileName) {
 	/*
@@ -167,4 +109,45 @@ std::array<int, 2> getDim(std::string fileName) {
 	std::array<int, 2> res = { largeur, hauteur };
 
 	return res;
+}
+
+void OutputToTXT(std::string ImpF,std::string OutF)
+{
+	std::ofstream sortie(OutF + ".txt");
+	std::vector<char> donnees = DecodeFile(ImpF);
+	int cpt = 0;
+	int largeur = getDim(ImpF)[0];
+	for (int a : donnees)
+	{
+		//std::cout << a << " | ";
+		if (a <= 32 && a >= 0) { // 
+			sortie << "W";
+		}
+		if (a <= 64 && a > 32) {
+			sortie << "w";
+		}
+		if (a <= 96 && a > 64) {
+			sortie << "l";
+		}
+		if (a > 96) {
+			sortie << "i";
+		}
+		if (a <= -96) {
+			sortie << ":";
+		}
+		if (a <= -64 && a > -96) { // -96 < a < -64
+			sortie << ",";
+		}
+		if (a <= -32 && a > -64) {
+			sortie << ".";
+		}
+		if (a < 0 && a > -32) {
+			sortie << " ";
+		}
+		cpt++;
+		if (cpt == largeur) {
+			sortie << std::endl;
+			cpt = 0;
+		}
+	}
 }

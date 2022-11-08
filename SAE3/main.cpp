@@ -9,8 +9,5 @@
 
 int main()
 {
-	std::cout << "Entrez le nom du fichier d'entrée";
-	std::string fileName;
-	std::cin >> fileName;
-	AffichageASCII(fileName);
+	AffichageMenu();
 }

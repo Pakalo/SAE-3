@@ -14,3 +14,4 @@
 
 std::vector<char> DecodeFile(std::string fileName);
 std::array<int, 2> getDim(std::string fileName);
+void OutputToTXT(std::string ImpF, std::string OutF);

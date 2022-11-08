@@ -2,4 +2,4 @@
 #include <iostream>
 #include <vector>
 
-void AffichageASCII(std::string fileName);
+void AffichageMenu();
