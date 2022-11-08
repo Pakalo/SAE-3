@@ -57,9 +57,6 @@ int main()
 	std::cout << hauteur << " | " << largeur;
 	std::cout << "\n\n";
 
-	hauteur = 500;
-	largeur = 500;
-
 
 	//Création d'une mémoire de 10 octets :
 	std::vector<char> donnees(hauteur * largeur);
@@ -71,28 +68,28 @@ int main()
 	{ 
 		//std::cout << a << " | ";
 		if (a <= -96) {
-			std::cout << "W";
-		}
-		if (a <= -64 && a > -96) { // -96 < a < -64
-			std::cout << "W";
-		}
-		if (a <= -32 && a > -64) {
-			std::cout << "l";
-		}
-		if (a < 0 && a > -32) {
-			std::cout << ":";
-		}
-		if (a <= 32 && a > 0) { // 
 			std::cout << "i";
 		}
-		if (a <= 64 && a > 32) {
+		if (a <= -64 && a > -96) { // -96 < a < -64
+			std::cout << ":";
+		}
+		if (a <= -32 && a > -64) {
 			std::cout << ",";
 		}
+		if (a < 0 && a > -32) {
+			std::cout << " ";
+		}
+		if (a <= 32 && a > 0) { // 
+			std::cout << "W";
+		}
+		if (a <= 64 && a > 32) {
+			std::cout << "w";
+		}
 		if (a <= 96 && a> 64) {
-			std::cout << ".";
+			std::cout << "l";
 		}
 		if (a > 96) {
-			std::cout << " ";
+			std::cout << "i";
 		}
 		cpt++;
 		if (cpt == largeur) {
@@ -101,3 +98,4 @@ int main()
 		}
 	}
 }
+
